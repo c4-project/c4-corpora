@@ -1,0 +1,26 @@
+C test_1616
+
+{ y = 0; x = 0; }
+
+void
+P0(atomic_int *y, atomic_int *x)
+{
+    int r0 = 0;
+    atomic_store_explicit(x, 2, memory_order_relaxed);
+    r0 = atomic_load_explicit(y, memory_order_acquire);
+    if (r0 == 1) { *x = 1; }
+}
+
+void
+P1(atomic_int *y, atomic_int *x)
+{
+    int r0 = 0;
+    int r1 = 0;
+    r1 = atomic_load_explicit(x, memory_order_relaxed);
+    if (r1 == 1) { r0 = atomic_load_explicit(x, memory_order_relaxed); }
+    if (r0 == 2) { atomic_store_explicit(y, 1, memory_order_release); }
+}
+
+forall
+((x == 2 /\ (y == 0 /\ 0:r0 == 0 /\ 1:r0 == 0 /\ 1:r1 == 0)) \/
+ (x == 2 /\ (y == 0 /\ 0:r0 == 0 /\ 1:r0 == 0 /\ 1:r1 == 2)))

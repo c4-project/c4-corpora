@@ -1,0 +1,29 @@
+C test_552
+
+{ z = 0; x = 0; y = 0; }
+
+void
+P0(atomic_int *z, int *x, int *y)
+{
+    int r1 = 0;
+    int r0 = 0;
+    r0 = atomic_load_explicit(z, memory_order_acquire);
+    if (r0 == 1) { r1 = atomic_load_explicit(z, memory_order_acquire); }
+    if (r1 == 1) { *y = 1; }
+    if (r0 == 1) { *x = 1; }
+}
+
+void
+P1(atomic_int *z, int *x, int *y)
+{
+    int r0 = 0;
+    int r1 = 0;
+    r1 = *x;
+    r0 = *y;
+    if (r1 == 1)
+    { if (r0 == 1) { atomic_store_explicit(z, 1, memory_order_release); } }
+}
+
+forall
+(x == 0 /\
+ (y == 0 /\ z == 0 /\ 0:r0 == 0 /\ 0:r1 == 0 /\ 1:r0 == 0 /\ 1:r1 == 0))

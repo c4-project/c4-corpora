@@ -1,0 +1,35 @@
+C test_2007
+
+{ x = 0; y = 0; z = 0; }
+
+void
+P0(atomic_int *x, atomic_int *y, atomic_int *z)
+{
+    int r0 = 0;
+    atomic_store_explicit(z, 2, memory_order_seq_cst);
+    r0 = atomic_load_explicit(y, memory_order_seq_cst);
+}
+
+void
+P1(atomic_int *x, atomic_int *y, atomic_int *z)
+{
+    int r0 = 0;
+    r0 = atomic_load_explicit(x, memory_order_acquire);
+    atomic_store_explicit(z, 1, memory_order_seq_cst);
+}
+
+void
+P2(atomic_int *x, atomic_int *y, atomic_int *z)
+{
+    atomic_store_explicit(y, 1, memory_order_seq_cst);
+    atomic_store_explicit(x, 1, memory_order_release);
+}
+
+forall
+((x == 1 /\ (y == 1 /\ z == 1 /\ 0:r0 == 0 /\ 1:r0 == 0)) \/
+ ((x == 1 /\ (y == 1 /\ z == 1 /\ 0:r0 == 0 /\ 1:r0 == 1)) \/
+  (x == 1 /\ (y == 1 /\ z == 1 /\ 0:r0 == 1 /\ 1:r0 == 0)) \/
+  (x == 1 /\ (y == 1 /\ z == 1 /\ 0:r0 == 1 /\ 1:r0 == 1)) \/
+  (x == 1 /\ (y == 1 /\ z == 2 /\ 0:r0 == 0 /\ 1:r0 == 0)) \/
+  (x == 1 /\ (y == 1 /\ z == 2 /\ 0:r0 == 1 /\ 1:r0 == 0)) \/
+  (x == 1 /\ (y == 1 /\ z == 2 /\ 0:r0 == 1 /\ 1:r0 == 1))))
