@@ -1,0 +1,30 @@
+C test_1095
+
+{ x = 0; y = 0; }
+
+void
+P0(atomic_int *x, atomic_int *y)
+{
+    int r1 = 0;
+    int r0 = 0;
+    r0 = 1;
+    atomic_compare_exchange_strong_explicit(y, &r0, 2, memory_order_relaxed,
+                                            memory_order_relaxed);
+    atomic_thread_fence(memory_order_acquire);
+    r1 = atomic_load_explicit(x, memory_order_relaxed);
+}
+
+void
+P1(atomic_int *x, atomic_int *y)
+{
+    int r0 = 0;
+    r0 = 0;
+    atomic_compare_exchange_strong_explicit(x, &r0, 1, memory_order_relaxed,
+                                            memory_order_relaxed);
+    atomic_store_explicit(y, 1, memory_order_release);
+}
+
+forall
+((0:r0 == 0 /\ 0:r1 == 0 /\ 1:r0 == 0 /\ x == 1 /\ y == 1) \/
+ (0:r0 == 0 /\ 0:r1 == 1 /\ 1:r0 == 0 /\ x == 1 /\ y == 1) \/
+ (0:r0 == 1 /\ 0:r1 == 1 /\ 1:r0 == 0 /\ x == 1 /\ y == 2))

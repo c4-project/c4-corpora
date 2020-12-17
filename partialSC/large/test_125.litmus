@@ -1,0 +1,54 @@
+C test_125
+
+{ x = 0; }
+
+void
+P0(atomic_int *x)
+{
+    int r0 = 0;
+    r0 = 0;
+    atomic_compare_exchange_strong_explicit(x, &r0, 2, memory_order_relaxed,
+                                            memory_order_relaxed);
+}
+
+void
+P1(atomic_int *x)
+{
+    int r1 = 0;
+    int r0 = 0;
+    r0 = 1;
+    atomic_compare_exchange_strong_explicit(x, &r0, 4, memory_order_relaxed,
+                                            memory_order_relaxed);
+    r1 = 2;
+    atomic_compare_exchange_strong_explicit(x, &r1, 5, memory_order_relaxed,
+                                            memory_order_relaxed);
+}
+
+void
+P2(atomic_int *x)
+{
+    int r1 = 0;
+    int r0 = 0;
+    r0 = 2;
+    atomic_compare_exchange_strong_explicit(x, &r0, 3, memory_order_relaxed,
+                                            memory_order_relaxed);
+    r1 = 4;
+    atomic_compare_exchange_strong_explicit(x, &r1, 1, memory_order_relaxed,
+                                            memory_order_relaxed);
+}
+
+forall
+((0:r0 == 0 /\ 1:r0 == 0 /\ 1:r1 == 0 /\ 2:r0 == 0 /\ 2:r1 == 0 /\ x == 2) \/
+ (0:r0 == 0 /\ 1:r0 == 0 /\ 1:r1 == 0 /\ 2:r0 == 0 /\ 2:r1 == 2 /\ x == 2) \/
+ (0:r0 == 0 /\ 1:r0 == 0 /\ 1:r1 == 0 /\ 2:r0 == 2 /\ 2:r1 == 3 /\ x == 3) \/
+ (0:r0 == 0 /\ 1:r0 == 0 /\ 1:r1 == 2 /\ 2:r0 == 0 /\ 2:r1 == 0 /\ x == 5) \/
+ (0:r0 == 0 /\ 1:r0 == 0 /\ 1:r1 == 2 /\ 2:r0 == 0 /\ 2:r1 == 2 /\ x == 5) \/
+ (0:r0 == 0 /\ 1:r0 == 0 /\ 1:r1 == 2 /\ 2:r0 == 0 /\ 2:r1 == 5 /\ x == 5) \/
+ (0:r0 == 0 /\ 1:r0 == 0 /\ 1:r1 == 2 /\ 2:r0 == 5 /\ 2:r1 == 5 /\ x == 5) \/
+ (0:r0 == 0 /\ 1:r0 == 0 /\ 1:r1 == 3 /\ 2:r0 == 2 /\ 2:r1 == 3 /\ x == 3) \/
+ (0:r0 == 0 /\ 1:r0 == 2 /\ 1:r1 == 2 /\ 2:r0 == 0 /\ 2:r1 == 0 /\ x == 5) \/
+ (0:r0 == 0 /\ 1:r0 == 2 /\ 1:r1 == 2 /\ 2:r0 == 0 /\ 2:r1 == 2 /\ x == 5) \/
+ (0:r0 == 0 /\ 1:r0 == 2 /\ 1:r1 == 2 /\ 2:r0 == 0 /\ 2:r1 == 5 /\ x == 5) \/
+ (0:r0 == 0 /\ 1:r0 == 2 /\ 1:r1 == 2 /\ 2:r0 == 5 /\ 2:r1 == 5 /\ x == 5) \/
+ (0:r0 == 0 /\ 1:r0 == 2 /\ 1:r1 == 3 /\ 2:r0 == 2 /\ 2:r1 == 3 /\ x == 3) \/
+ (0:r0 == 0 /\ 1:r0 == 3 /\ 1:r1 == 3 /\ 2:r0 == 2 /\ 2:r1 == 3 /\ x == 3))

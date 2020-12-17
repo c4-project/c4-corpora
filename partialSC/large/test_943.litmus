@@ -1,0 +1,39 @@
+C test_943
+
+{ x = 0; }
+
+void
+P0(atomic_int *x)
+{
+    int r0 = 0;
+    r0 = 1;
+    atomic_compare_exchange_strong_explicit(x, &r0, 4, memory_order_acquire,
+                                            memory_order_relaxed);
+    if (r0 == 1) { *x = 2; }
+}
+
+void
+P1(atomic_int *x)
+{
+    int r1 = 0;
+    int r0 = 0;
+    r0 = atomic_load_explicit(x, memory_order_acquire);
+    if (r0 == 3)
+    {
+        r1 = 1;
+        atomic_compare_exchange_strong_explicit(x, &r1, 1,
+                                                memory_order_release,
+                                                memory_order_relaxed);
+    }
+}
+
+void
+P2(atomic_int *x)
+{
+    int r0 = 0;
+    r0 = 2;
+    atomic_compare_exchange_strong_explicit(x, &r0, 3, memory_order_release,
+                                            memory_order_relaxed);
+}
+
+forall (0:r0 == 0 /\ 1:r0 == 0 /\ 1:r1 == 0 /\ 2:r0 == 0 /\ x == 0)
