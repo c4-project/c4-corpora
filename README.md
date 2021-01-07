@@ -1,9 +1,13 @@
 # c4-corpora
 
 This repo contains input corpora for
-[c4f](https://github.com/MattWindsor91/c4f).  These contain C litmus tests
+[c4f](https://github.com/c4-project/c4f).  These contain C litmus tests
 generated using Memalloy, with the postconditions replaced ('amplified', in C4
 speak) with ones listing all states seen through exhaustive Herd7 simulation.
+
+**Have an interesting C litmus test that you think might be a good fuzzer
+input?** Feel free to open a pull request to add it to the corpus (so long as
+it can be placed under the CC0 waiver).
 
 ## The corpora
 
@@ -29,13 +33,12 @@ We organise the corpora based on generation model and size:
 ## Reproduction
 
 These corpora were produced using the `do-memalloy-amplify` script in
-[c4-scripts](https://github.com/MattWindsor91/c4-scripts).  For full
+[c4-scripts](https://github.com/c4-project/c4-scripts).  For full
 compare-exchange support, we use a
-[Memalloy fork](https://github.com/MattWindsor91/memalloy) (`dev` branch) and
-a [Herd7 fork](https://github.com/MattWindsor91/herdtools7).
+[Memalloy fork](https://github.com/c4-project/memalloy) (`dev` branch) and
+a [Herd7 fork](https://github.com/c4-project/herdtools7).
 
 ## Licence
 
 These corpora are considered to be in the public domain, under the Creative
 Commons CC0 waiver version 1.0; see `LICENSE`.
-
