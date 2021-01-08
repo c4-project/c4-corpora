@@ -2,7 +2,7 @@
 
 This directory contains the pre-processed, amplified results of running
 Memalloy on the RC11 model (Lahav et al.) with 4 events, and with single event
-RMWs disabled (c11_normw.cat).
+RMWs disabled.
 
 14 subjects.
 

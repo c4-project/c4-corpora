@@ -27,8 +27,11 @@ We organise the corpora based on generation model and size:
 
 ### Sizes
 
-- **small**: 2 events;
-- **large**: 4 events for rc11, 5 events for partialSC.
+There are up to three sizes for each model: `tiny`, `small`, and `large`.
+The sizes are relative; for example, `rc11/small` is much smaller than
+`partialSC/small`.
+
+These names may change to something more systematic later on.
 
 ## Reproduction
 

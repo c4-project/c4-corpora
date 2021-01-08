@@ -1,0 +1,32 @@
+C test_64
+
+{ x = 0; }
+
+void
+P0(atomic_int *x)
+{
+    int r1 = 0;
+    int r0 = 0;
+    r0 = 1;
+    atomic_compare_exchange_strong_explicit(x, &r0, 2, memory_order_acquire,
+                                            memory_order_relaxed);
+    r1 = 4;
+    atomic_compare_exchange_strong_explicit(x, &r1, 3, memory_order_relaxed,
+                                            memory_order_relaxed);
+    if (r0 == 1) { *x = 4; }
+}
+
+void
+P1(atomic_int *x)
+{
+    int r0 = 0;
+    r0 = 0;
+    atomic_compare_exchange_strong_explicit(x, &r0, 1, memory_order_release,
+                                            memory_order_relaxed);
+}
+
+forall
+((0:r0 == 0 /\ 0:r1 == 0 /\ 1:r0 == 0 /\ x == 1) \/
+ (0:r0 == 0 /\ 0:r1 == 1 /\ 1:r0 == 0 /\ x == 1) \/
+ (0:r0 == 1 /\ 0:r1 == 2 /\ 1:r0 == 0 /\ x == 2) \/
+ (0:r0 == 1 /\ 0:r1 == 2 /\ 1:r0 == 0 /\ x == 4))
