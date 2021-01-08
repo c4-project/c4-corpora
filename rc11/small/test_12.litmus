@@ -15,4 +15,4 @@ P1(atomic_int *x)
 { atomic_store_explicit(x, 2, memory_order_relaxed); }
 
 forall
-((x == 1 /\ 0:r0 == 0) \/ ((x == 1 /\ 0:r0 == 2) \/ (x == 2 /\ 0:r0 == 0)))
+((0:r0 == 0 /\ x == 1) \/ (0:r0 == 0 /\ x == 2) \/ (0:r0 == 2 /\ x == 1))

@@ -1,9 +1,18 @@
 # RC11 small corpus
 
 This directory contains the pre-processed, amplified results of running
-Memalloy on the RC11 model (Lahav et al.) with 2 events.
+Memalloy on the RC11 model (Lahav et al.) with 4 events, and with single event
+RMWs disabled (c11_normw.cat).
 
-## Why is there no test 7?
+14 subjects.
 
-It failed amplification at the time of generation; this issue was fixed by
-the time we moved to generating PartialSC corpora.
+## Reproduction
+
+```shell
+$ do_memalloy_amplify \
+  -e 4 \
+  -b herd \
+  -m c11_lahav.cat \
+  -M c11_normws.cat \
+  PATH_TO_MEMALLOY rc11/small
+```

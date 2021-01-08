@@ -16,4 +16,4 @@ P1(atomic_int *y, atomic_int *x)
     atomic_store_explicit(x, 1, memory_order_seq_cst);
 }
 
-forall ((x == 1 /\ y == 1) \/ ((x == 1 /\ y == 2) \/ (x == 2 /\ y == 1)))
+forall ((x == 1 /\ y == 1) \/ (x == 1 /\ y == 2) \/ (x == 2 /\ y == 1))
