@@ -1,7 +1,7 @@
 # RC11 large corpus
 
 This directory contains the pre-processed, amplified results of running
-Memalloy on the RC11 model (Lahav et al.) with 4 events.
+Memalloy on the RC11 model (Lahav et al.) with 6(?) events.
 
 ## Why are there missing numbers?
 
