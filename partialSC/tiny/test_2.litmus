@@ -6,8 +6,8 @@ void
 P0(atomic_int *x)
 {
     int r0 = 0;
-    atomic_compare_exchange_strong_explicit(x, &r0, 1,
-                                            memory_order_relaxed,
+    r0 = 0;
+    atomic_compare_exchange_strong_explicit(x, &r0, 1, memory_order_relaxed,
                                             memory_order_relaxed);
 }
 
@@ -15,8 +15,8 @@ void
 P1(atomic_int *x)
 {
     int r0 = 0;
-    atomic_compare_exchange_strong_explicit(x, &r0, 2,
-                                            memory_order_relaxed,
+    r0 = 0;
+    atomic_compare_exchange_strong_explicit(x, &r0, 2, memory_order_relaxed,
                                             memory_order_relaxed);
 }
 
